@@ -9,6 +9,6 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
 RUN sudo apt update -y
-RUN sudo apt install software-properties-common
+RUN sudo apt install software-properties-common -y
 RUN sudo add-apt-repository --yes --update ppa:ansible/ansible
-RUN sudo apt install ansible
+RUN sudo apt install ansible -y
