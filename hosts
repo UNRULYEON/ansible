@@ -1,0 +1,2 @@
+[homelab]
+lovelace ansible_host=lovelace.amar.sh ansible_connection=ssh ansible_user=amar ansible_port=69 ansible_ssh_private_key_file=~/.ssh/lovelace
