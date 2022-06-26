@@ -1,0 +1,8 @@
+---
+- hosts: homelab
+  become: true
+
+  roles:
+    - aptitude
+    - neofetch
+    - docker
