@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
 
 xcode-select --install
+
+
+read -p "Is the command line developer tools installed? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+
 sudo xcodebuild -license
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py
