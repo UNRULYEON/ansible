@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-xcode-select install
+xcode-select --install
 sudo xcodebuild -license
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py
