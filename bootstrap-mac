@@ -1,9 +1,31 @@
 #!/usr/bin/env sh
 
-xcode-select --install
+cd ~
 
+xcode-select --install
 read -p "Is the command line developer tools installed? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+
+sudo xcodebuild -license
+read -p "Accepted the license? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py
 sudo pip3 install --ignore-installed ansible
+rm get-pip.py
+
+# rm -rf dotfiles
+# git clone https://github.com/UNRULYEON/dotfiles.git
+
+rm -rf ansible
+git clone https://github.com/UNRULYEON/ansible.git
+cd ansible
+
+ansible-galaxy install -r requirements.yml
+ansible-playbook main.yml --ask-become-pass
+
+rm -rf ansible
+cd ..
+
+echo "Generate or import GPG keys with this guide: https://amar-kisoensingh.notion.site/GPG-Keys-ac46dff6e5b34733b9cf31e64f2f2274"

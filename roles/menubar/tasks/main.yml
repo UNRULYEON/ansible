@@ -1,0 +1,22 @@
+# https://www.tech-otaku.com/mac/setting-the-date-and-time-format-for-the-macos-menu-bar-clock-using-terminal/
+
+---
+- name: menubar | Show seconds
+  ansible.builtin.shell:
+    defaults write com.apple.menuextra.clock ShowSeconds -bool true
+  tags: ['menubar']
+
+- name: menubar | Hide Spotlight icon
+  ansible.builtin.shell:
+    defaults -currentHost write com.apple.Spotlight MenuItemHidden -int 1
+  tags: ['menubar']
+
+- name: menubar | Show battery percentage
+  ansible.builtin.shell:
+    defaults write ~/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
+  tags: ['menubar']
+
+- name: menubar | Restart SystemUIServer
+  ansible.builtin.shell:
+    killall SystemUIServer
+  tags: ['menubar']

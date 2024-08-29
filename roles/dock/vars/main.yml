@@ -1,0 +1,40 @@
+---
+configure_dock: true
+dockitems_remove:
+  - 'App Store'
+  - Calendar
+  - Contacts
+  - Downloads
+  - FaceTime
+  - Freeform
+  - Keynote
+  - Launchpad
+  - Mail
+  - Maps
+  - Messages
+  - Music
+  - Notes
+  - Numbers
+  - Pages
+  - Photos
+  - Podcasts
+  - Reminders
+  - Safari
+  - System Settings
+  - TV
+dockitems_persist:
+  - name: "Arc"
+    path: "/Applications/Arc.app/"
+    pos: 1
+  - name: "iTerm"
+    path: "/Applications/iTerm.app/"
+    pos: 2
+  - name: "Visual Studio Code"
+    path: "/Applications/Visual Studio Code.app/"
+    pos: 3
+  - name: "Notion"
+    path: "/Applications/Notion.app/"
+    pos: 4
+  - name: "Music"
+    path: "/Applications/Music.app/"
+    pos: 5

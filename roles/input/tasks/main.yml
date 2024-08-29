@@ -1,0 +1,16 @@
+---
+- name: text | Disable text auto-correction in native apps
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: NSAutomaticSpellingCorrectionEnabled
+    type: bool
+    value: false
+    state: present
+
+- name: text | Disable auto-correction in web
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: WebAutomaticSpellingCorrectionEnabled
+    type: bool
+    value: false
+    state: present

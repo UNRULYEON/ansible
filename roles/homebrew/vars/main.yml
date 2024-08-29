@@ -1,0 +1,31 @@
+---
+homebrew_installed_packages:
+  - fnm
+  - fzf
+  - git
+  - gh
+  - gpg
+  - mas
+  - starship
+  - zsh
+
+homebrew_taps: []
+homebrew_cask_appdir: /Applications
+
+homebrew_cask_apps:
+  - arc
+  - bitwarden
+  - bruno
+  - cleanshot
+  - discord
+  - figma
+  - fork
+  - font-fira-code-nerd-font
+  - font-fira-mono-nerd-font
+  - font-geist-mono-nerd-font
+  - google-chrome
+  - iina
+  - iterm2
+  - notion
+  - raycast
+  - visual-studio-code

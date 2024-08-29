@@ -1,0 +1,25 @@
+---
+- name: Install Mac App Store apps
+  environment:
+    PATH: "/opt/homebrew/bin:/opt/homebrew/sbin:{{ ansible_env.PATH }}"
+  community.general.mas:
+    id:
+      - 1461650987 # Crouton
+      - 411643860 # DaisyDisk
+      - 441258766 # Magnet
+      - 1295203466 # Microsoft Remote Desktop
+      - 497799835 # Xcode
+    state: latest
+
+- name: Uninstall Mac App Store apps
+  environment:
+    PATH: "/opt/homebrew/bin:/opt/homebrew/sbin:{{ ansible_env.PATH }}"
+  community.general.mas:
+    id: 
+      - 682658836 # GarageBand
+      - 409183694 # Keynote
+      - 408981434 # iMovie
+      - 409203825 # Numbers
+      - 409201541 # Pages
+    state: absent
+  become: true

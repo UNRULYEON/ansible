@@ -1,0 +1,29 @@
+---
+- name: dock | Setup Mac Dock
+  ansible.builtin.include_role:
+    name: geerlingguy.mac.dock
+    apply:
+      environment:
+        PATH: "/opt/homebrew/bin:/opt/homebrew/sbin:{{ ansible_env.PATH }}"
+  when: configure_dock
+  tags: ['dock']
+
+- name: dock | Move dock position
+  ansible.builtin.shell:
+    defaults write com.apple.dock orientation left
+
+- name: dock | Resize dock to 32
+  ansible.builtin.shell:
+    defaults write com.apple.dock tilesize -int 32
+
+- name: dock | Change minimising effect to Scale
+  ansible.builtin.shell:
+    defaults write com.apple.dock mineffect -string scale
+
+- name: dock | Disable showing recent apps
+  ansible.builtin.shell:
+    defaults write com.apple.dock show-recents -bool FALSE
+
+- name: dock | Restart the dock to apply changes
+  ansible.builtin.shell:
+    killall Dock

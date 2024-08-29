@@ -1,0 +1,23 @@
+---
+- name: Macbook playbook
+  hosts: all
+
+  pre_tasks:
+    - name: Include playbook configuration.
+      include_vars: "{{ item }}"
+      with_fileglob:
+        - "{{ playbook_dir }}/config.yml"
+      tags: ['always']
+
+  roles:
+    - role: elliotweiser.osx-command-line-tools
+    - role: homebrew
+    - role: omz
+    - role: git
+    # - role: iterm
+    - role: starship
+    - role: mas
+    - role: dock
+    - role: finder
+    - role: input
+    - role: menubar

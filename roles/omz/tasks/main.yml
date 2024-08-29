@@ -1,0 +1,55 @@
+---
+- name: Ensure zsh is installed.
+  block:
+    - name: "install zsh for macOS."
+      homebrew:
+        name: "zsh"
+        state: "present"
+      when:
+        - "ansible_system == 'Darwin'"
+
+- name: Set zsh as the default shell
+  ansible.builtin.shell: chsh -s $(which zsh)
+  become: true
+
+- name: Validate zsh is the default shell
+  ansible.builtin.shell: echo $SHELL
+  register: default_shell
+  ignore_errors: true
+
+- name: Check if OMZ is installed
+  stat:
+    path: ~/.oh-my-zsh
+  register: omz_result
+
+- name: Install OMZ
+  ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  register: omz_install
+  when: not omz_result.stat.exists
+
+- name: Copy .zshrc
+  template:
+    src: zshrc.j2
+    dest: ~/.zshrc
+    owner: amarkisoensingh
+    group: staff
+    backup: true
+    force: true
+
+- name: Check if "zsh-autosuggestions" is cloned
+  stat:
+    path: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  register: zsh_autosuggestions_result
+
+- name: Clone "zsh-autosuggestions"
+  ansible.builtin.shell: git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  when: not zsh_autosuggestions_result.stat.exists
+
+- name: Check if "zsh-syntax-highlighting" is cloned
+  stat:
+    path: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+  register: zsh_syntax_highlighting_result
+
+- name: Clone "zsh-syntax-highlighting"
+  ansible.builtin.shell: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+  when: not zsh_autosuggestions_result.stat.exists

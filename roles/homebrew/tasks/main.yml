@@ -1,0 +1,5 @@
+---
+- name: homebrew | Install packages with Homebrew
+  ansible.builtin.include_role:
+    name: geerlingguy.mac.homebrew
+  tags: ['homebrew']

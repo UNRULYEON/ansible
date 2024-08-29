@@ -1,0 +1,4 @@
+---
+- name: Sign commits by default
+  ansible.builtin.shell:
+    git config commit.gpgsign true

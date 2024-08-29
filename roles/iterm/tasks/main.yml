@@ -1,0 +1,8 @@
+---
+- name: Set remote config URL.
+  ansible.builtin.shell:
+    defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "https://github.com/UNRULYEON/ansible/raw/main/iterm.itermexport"
+
+- name: Use custom preferences from the URL/
+  ansible.builtin.shell:
+    defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
