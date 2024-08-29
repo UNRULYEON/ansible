@@ -1,9 +1,14 @@
 #!/usr/bin/env sh
 
+XCODE_INSTALLED_RESULT=$(xcode-select -p 1>/dev/null;echo $?)
+
 cd ~
 
-xcode-select --install
-read -p "Is the command line developer tools installed? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+if [ $XCODE_INSTALLED_RESULT == 2 ]
+then
+  xcode-select --install
+  read -p "Is the command line developer tools installed? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+fi
 
 sudo xcodebuild -license
 read -p "Accepted the license? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
@@ -25,8 +30,8 @@ cd ansible
 ansible-galaxy install -r requirements.yml
 ansible-playbook main.yml --ask-become-pass
 
-rm -rf ansible
 cd ..
+# rm -rf ansible
 
 echo "➜ Generate SSH keys: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
 echo "➜ Generate or import GPG keys: https://amar-kisoensingh.notion.site/GPG-Keys-ac46dff6e5b34733b9cf31e64f2f2274"
