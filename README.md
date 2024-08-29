@@ -8,13 +8,15 @@
 xcode-select --install
 ```
 
-3. Agree to the license
+3. Install Xcode through the App Store
+
+4. Agree to the license
 
 ```bash
 sudo xcodebuild -license
 ```
 
-4. Run the bootstrap script
+5. Run the bootstrap script
 
 ```bash
 curl https://raw.githubusercontent.com/UNRULYEON/ansible/main/bootstrap-mac | bash
