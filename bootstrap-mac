@@ -27,7 +27,7 @@ rm -rf ansible
 git clone https://github.com/UNRULYEON/ansible.git
 cd ansible
 
-ansible-galaxy install -r requirements.yml
+ansible-galaxy install -r requirements.yml --force
 ansible-playbook main.yml --ask-become-pass
 
 cd ..
