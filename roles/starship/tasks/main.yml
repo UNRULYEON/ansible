@@ -1,4 +1,11 @@
 ---
+- name: Create ~/.config folder
+  ansible.builtin.file:
+    path: ~/.config
+    state: directory
+    owner: amarkisoensingh
+    group: staff
+
 - name: Copy starship.toml
   template:
     src: starship.toml.j2
