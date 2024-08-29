@@ -5,8 +5,8 @@ omz_plugins:
 omz_zshrc_settings: |
   export PATH=$PATH:/opt/homebrew/bin
 
-  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
   eval "$(starship init zsh)"
   eval "$(fnm env --use-on-cd)"
