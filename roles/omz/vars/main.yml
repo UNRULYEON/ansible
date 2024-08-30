@@ -10,6 +10,8 @@ omz_zshrc_settings: |
 
   eval "$(starship init zsh)"
   eval "$(fnm env --use-on-cd)"
+  eval "$(pyenv init -)"
+  if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
   source <(fzf --zsh)
 

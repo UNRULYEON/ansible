@@ -6,6 +6,9 @@ homebrew_installed_packages:
   - gh
   - gpg
   - mas
+  - pinentry-mac
+  - pyenv
+  - pyenv-virtualenv
   - starship
   - zsh
 
