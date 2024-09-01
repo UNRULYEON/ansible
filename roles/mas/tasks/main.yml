@@ -8,7 +8,9 @@
       - 411643860 # DaisyDisk
       - 441258766 # Magnet
       - 1295203466 # Microsoft Remote Desktop
+      - 1529448980 # Reeder 5.
       - 747648890 # Telegram
+      - 310633997 # WhatsApp Messenger
       - 497799835 # Xcode
     state: latest
 
