@@ -11,6 +11,7 @@
       - 1529448980 # Reeder 5.
       - 747648890 # Telegram
       - 310633997 # WhatsApp Messenger
+      - 1320666476 # Wipr
       - 497799835 # Xcode
     state: latest
 
