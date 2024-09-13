@@ -23,18 +23,21 @@ dockitems_remove:
   - System Settings
   - TV
 dockitems_persist:
-  - name: "Arc"
-    path: "/Applications/Arc.app/"
+  - name: 'Safari'
+    path: '/Applications/Safari.app/'
     pos: 1
-  - name: "iTerm"
-    path: "/Applications/iTerm.app/"
+  - name: 'Arc'
+    path: '/Applications/Arc.app/'
     pos: 2
-  - name: "Visual Studio Code"
-    path: "/Applications/Visual Studio Code.app/"
+  - name: 'iTerm'
+    path: '/Applications/iTerm.app/'
     pos: 3
-  - name: "Notion"
-    path: "/Applications/Notion.app/"
+  - name: 'Visual Studio Code'
+    path: '/Applications/Visual Studio Code.app/'
     pos: 4
-  - name: "Music"
-    path: "/Applications/Music.app/"
+  - name: 'Notion'
+    path: '/Applications/Notion.app/'
     pos: 5
+  - name: 'Music'
+    path: '/Applications/Music.app/'
+    pos: 6
