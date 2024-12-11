@@ -38,7 +38,7 @@
 
 - name: Check if "zsh-autosuggestions" is cloned
   stat:
-    path: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    path: ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
   register: zsh_autosuggestions_result
 
 - name: Clone "zsh-autosuggestions"
@@ -47,7 +47,7 @@
 
 - name: Check if "zsh-syntax-highlighting" is cloned
   stat:
-    path: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    path: ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   register: zsh_syntax_highlighting_result
 
 - name: Clone "zsh-syntax-highlighting"
