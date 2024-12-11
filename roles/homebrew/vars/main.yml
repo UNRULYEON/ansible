@@ -32,4 +32,5 @@ homebrew_cask_apps:
   - iterm2
   - notion
   - raycast
+  - tailscale
   - visual-studio-code
