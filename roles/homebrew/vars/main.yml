@@ -2,10 +2,11 @@
 homebrew_installed_packages:
   - fnm
   - fzf
-  - git
   - gh
+  - git
   - gpg
   - mas
+  - orbstack
   - pinentry-mac
   - pnpm
   - pyenv
@@ -23,10 +24,11 @@ homebrew_cask_apps:
   - discord
   - docker
   - figma
-  - fork
   - font-fira-code-nerd-font
   - font-fira-mono-nerd-font
   - font-geist-mono-nerd-font
+  - fork
+  - ghostty
   - google-chrome
   - iina
   - iterm2
