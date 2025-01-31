@@ -24,3 +24,4 @@ rm -rf ansible
 
 echo "➜ Generate SSH keys: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
 echo "➜ Generate or import GPG keys: https://amar-kisoensingh.notion.site/GPG-Keys-ac46dff6e5b34733b9cf31e64f2f2274"
+echo "➜ Configure passwordless SSH login: https://amar-kisoensingh.notion.site/SSH-keys-27b45ac9ec6a442d9bf905062b1fbce2?pvs=4"
