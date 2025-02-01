@@ -1,10 +1,10 @@
 ---
 homebrew_installed_packages:
-  - delta
   - fnm
   - fzf
   - gh
   - git
+  - git-delta
   - gpg
   - mas
   - orbstack
