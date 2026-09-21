@@ -1,0 +1,5 @@
+# Lint tooling. CI installs this; run `pip install -r requirements-dev.txt`
+# to get the same checks locally.
+ansible-core
+ansible-lint
+yamllint

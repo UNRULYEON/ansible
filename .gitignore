@@ -2,3 +2,5 @@
 .vscode
 
 elliotweiser.osx-command-line-tools
+.ansible/
+venv/

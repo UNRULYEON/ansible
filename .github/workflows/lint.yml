@@ -1,0 +1,39 @@
+---
+name: Lint
+
+'on':
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: yamllint, syntax check and ansible-lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install the lint tooling
+        run: pip install -r requirements-dev.txt
+
+      - name: Install Galaxy roles and collections
+        run: ansible-galaxy install -r requirements.yml
+
+      - name: Check the YAML style
+        run: yamllint .
+
+      - name: Check the playbook syntax
+        run: ansible-playbook main.yml --syntax-check
+
+      - name: Lint the playbook
+        run: ansible-lint

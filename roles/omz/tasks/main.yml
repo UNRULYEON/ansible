@@ -2,7 +2,7 @@
 - name: Ensure zsh is installed.
   block:
     - name: "install zsh for macOS."
-      homebrew:
+      community.general.homebrew:
         name: "zsh"
         state: "present"
       when:
@@ -18,7 +18,7 @@
   ignore_errors: true
 
 - name: Check if OMZ is installed
-  stat:
+  ansible.builtin.stat:
     path: ~/.oh-my-zsh
   register: omz_result
 
@@ -28,7 +28,7 @@
   when: not omz_result.stat.exists
 
 - name: Copy .zshrc
-  template:
+  ansible.builtin.template:
     src: zshrc.j2
     dest: ~/.zshrc
     owner: amarkisoensingh
@@ -37,7 +37,7 @@
     force: true
 
 - name: Check if "zsh-autosuggestions" is cloned
-  stat:
+  ansible.builtin.stat:
     path: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
   register: zsh_autosuggestions_result
 
@@ -46,7 +46,7 @@
   when: zsh_autosuggestions_result.stat.isdir is not defined
 
 - name: Check if "zsh-syntax-highlighting" is cloned
-  stat:
+  ansible.builtin.stat:
     path: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
   register: zsh_syntax_highlighting_result
 

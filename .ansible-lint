@@ -1,0 +1,27 @@
+---
+# Correctness gate for the playbook. It runs in CI and you can run it locally
+# with `ansible-lint` (add `--offline` to skip the Galaxy download).
+#
+# Fatal rules catch a broken playbook: bad YAML, an unknown module, a typo in a
+# module name, a bad schema. The rules under `warn_list` need real changes to
+# the tasks, so they report but do not fail the build yet.
+
+exclude_paths:
+  # Third party. `ansible-galaxy install -r requirements.yml` overwrites it.
+  - roles/elliotweiser.osx-command-line-tools/
+  # Where ansible-lint puts the dependencies it downloads.
+  - .ansible/
+
+warn_list:
+  # Task names use the `role | Step` convention on purpose.
+  - name[casing]
+  # Many tasks use `shell` with `defaults write` or `git config`. They report
+  # "changed" at each run. To clear these, give each task a `changed_when`, or
+  # use `community.general.osx_defaults` and the `git` module.
+  - command-instead-of-module
+  - command-instead-of-shell
+  - no-changed-when
+  # The `template` and `file` tasks do not set a mode.
+  - risky-file-permissions
+  # Role variables have no role-name prefix.
+  - var-naming[no-role-prefix]

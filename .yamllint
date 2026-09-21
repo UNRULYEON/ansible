@@ -1,0 +1,15 @@
+---
+# Style gate for the YAML in this repo. It runs in CI and you can run it
+# locally with `yamllint .`.
+extends: default
+
+ignore: |
+  roles/elliotweiser.osx-command-line-tools/
+  .ansible/
+  venv/
+
+rules:
+  # `defaults write` commands and install URLs do not wrap well, and breaking
+  # them would change what the shell runs.
+  line-length:
+    max: 160
