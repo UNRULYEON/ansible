@@ -2,21 +2,30 @@
 
 ---
 - name: menubar | Show seconds
-  ansible.builtin.shell:
-    defaults write com.apple.menuextra.clock ShowSeconds -bool true
+  community.general.osx_defaults:
+    domain: com.apple.menuextra.clock
+    key: ShowSeconds
+    type: bool
+    value: true
+  notify: Restart SystemUIServer
   tags: ['menubar']
 
 - name: menubar | Hide Spotlight icon
-  ansible.builtin.shell:
-    defaults -currentHost write com.apple.Spotlight MenuItemHidden -int 1
+  community.general.osx_defaults:
+    host: currentHost
+    domain: com.apple.Spotlight
+    key: MenuItemHidden
+    type: int
+    value: 1
+  notify: Restart SystemUIServer
   tags: ['menubar']
 
 - name: menubar | Show battery percentage
-  ansible.builtin.shell:
-    defaults write ~/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
-  tags: ['menubar']
-
-- name: menubar | Restart SystemUIServer
-  ansible.builtin.shell:
-    killall SystemUIServer
+  community.general.osx_defaults:
+    host: currentHost
+    domain: com.apple.controlcenter
+    key: BatteryShowPercentage
+    type: bool
+    value: true
+  notify: Restart ControlCenter
   tags: ['menubar']

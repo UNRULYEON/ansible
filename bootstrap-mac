@@ -1,16 +1,13 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+set -euo pipefail
 
 cd ~
 
+# The Homebrew installer also installs the Xcode Command Line Tools.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python3 get-pip.py
-sudo pip3 install --ignore-installed ansible
-rm get-pip.py
-
-# rm -rf dotfiles
-# git clone https://github.com/UNRULYEON/dotfiles.git
+brew install ansible
 
 rm -rf ansible
 git clone https://github.com/UNRULYEON/ansible.git

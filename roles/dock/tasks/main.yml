@@ -8,22 +8,16 @@
   when: configure_dock
   tags: ['dock']
 
-- name: dock | Move dock position
-  ansible.builtin.shell:
-    defaults write com.apple.dock orientation left
-
-- name: dock | Resize dock to 32
-  ansible.builtin.shell:
-    defaults write com.apple.dock tilesize -int 32
-
-- name: dock | Change minimising effect to Scale
-  ansible.builtin.shell:
-    defaults write com.apple.dock mineffect -string scale
-
-- name: dock | Disable showing recent apps
-  ansible.builtin.shell:
-    defaults write com.apple.dock show-recents -bool FALSE
-
-- name: dock | Restart the dock to apply changes
-  ansible.builtin.shell:
-    killall Dock
+- name: dock | Configure Dock settings
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: '{{ item.key }}'
+    type: '{{ item.type }}'
+    value: '{{ item.value }}'
+  loop:
+    - { key: orientation, type: string, value: left }
+    - { key: tilesize, type: int, value: 32 }
+    - { key: mineffect, type: string, value: scale }
+    - { key: show-recents, type: bool, value: false }
+  notify: Restart Dock
+  tags: ['dock']

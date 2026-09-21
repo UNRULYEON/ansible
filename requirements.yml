@@ -1,7 +1,6 @@
 ---
-roles:
-  - name: elliotweiser.osx-command-line-tools
-
 collections:
+  # 12.6+ can read the output of mas 2.3 and newer.
   - name: community.general
+    version: '>=12.6.0'
   - name: geerlingguy.mac

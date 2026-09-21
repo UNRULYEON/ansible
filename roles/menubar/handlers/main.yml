@@ -1,0 +1,6 @@
+---
+- name: Restart SystemUIServer
+  ansible.builtin.command: killall SystemUIServer
+
+- name: Restart ControlCenter
+  ansible.builtin.command: killall ControlCenter

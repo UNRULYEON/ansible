@@ -5,6 +5,7 @@
     type: bool
     value: true
     state: present
+  notify: Restart Finder
 
 - name: finder | Show status bar
   community.general.osx_defaults:
@@ -13,14 +14,7 @@
     type: bool
     value: true
     state: present
-
-- name: finder | Show bottom path bar by default
-  community.general.osx_defaults:
-    domain: com.apple.finder
-    key: ShowPathBar
-    type: bool
-    value: true
-    state: present
+  notify: Restart Finder
 
 - name: finder | Show all filename extensions
   community.general.osx_defaults:
@@ -29,6 +23,7 @@
     type: bool
     value: true
     state: present
+  notify: Restart Finder
 
 # Computer     : `PfCm`
 # Volume       : `PfVo`
@@ -44,14 +39,16 @@
     type: string
     value: "PfHm"
     state: present
+  notify: Restart Finder
 
 - name: finder | Set file path which Finder should open on start
   community.general.osx_defaults:
     domain: com.apple.finder
     key: NewWindowTargetPath
     type: string
-    value: "file://~"
+    value: "file://{{ ansible_env.HOME }}/"
     state: present
+  notify: Restart Finder
 
 # Icon View   : `icnv`
 # List View   : `Nlsv`
@@ -64,3 +61,4 @@
     type: string
     value: "Nlsv"
     state: present
+  notify: Restart Finder

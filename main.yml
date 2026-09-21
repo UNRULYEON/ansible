@@ -10,11 +10,9 @@
       tags: ['always']
 
   roles:
-    - role: elliotweiser.osx-command-line-tools
     - role: homebrew
     - role: omz
     - role: git
-    # - role: iterm
     - role: starship
     - role: mas
     - role: dock

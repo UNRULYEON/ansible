@@ -7,7 +7,7 @@ homebrew_installed_packages:
   - git-delta
   - gpg
   - mas
-  - orbstack
+  - mole
   - pinentry-mac
   - pnpm
   - pyenv
@@ -17,10 +17,10 @@ homebrew_installed_packages:
 
 homebrew_taps: []
 homebrew_cask_appdir: /Applications
+homebrew_cask_accept_external_apps: true
 
 homebrew_cask_apps:
-  - bitwarden
-  - bruno
+  - claude
   - cleanshot
   - discord
   - docker
@@ -28,12 +28,14 @@ homebrew_cask_apps:
   - font-fira-code-nerd-font
   - font-fira-mono-nerd-font
   - font-geist-mono-nerd-font
-  - fork
   - ghostty
   - google-chrome
+  - helium-browser
   - iina
-  - iterm2
   - notion
+  - orbstack
   - raycast
   - tailscale
   - visual-studio-code
+  - yaak
+  - zed
