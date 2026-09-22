@@ -1,5 +1,5 @@
 ---
-- name: dock | Setup Mac Dock
+- name: Dock | Setup Mac Dock
   ansible.builtin.include_role:
     name: geerlingguy.mac.dock
     apply:
@@ -8,7 +8,7 @@
   when: configure_dock
   tags: ['dock']
 
-- name: dock | Configure Dock settings
+- name: Dock | Configure Dock settings
   community.general.osx_defaults:
     domain: com.apple.dock
     key: '{{ item.key }}'

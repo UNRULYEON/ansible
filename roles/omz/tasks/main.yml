@@ -8,5 +8,6 @@
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/{{ item }}.git'
     dest: '~/.oh-my-zsh/custom/plugins/{{ item }}'
+    version: master
     update: false
   loop: '{{ omz_plugins }}'

@@ -1,5 +1,5 @@
 ---
-- name: text | Disable text auto-correction in native apps
+- name: Input | Disable text auto-correction in native apps
   community.general.osx_defaults:
     domain: NSGlobalDomain
     key: NSAutomaticSpellingCorrectionEnabled
@@ -7,7 +7,7 @@
     value: false
     state: present
 
-- name: text | Disable auto-correction in web
+- name: Input | Disable auto-correction in web
   community.general.osx_defaults:
     domain: NSGlobalDomain
     key: WebAutomaticSpellingCorrectionEnabled

@@ -1,4 +1,4 @@
-- name: finder | Show path bar in Finder
+- name: Finder | Show path bar in Finder
   community.general.osx_defaults:
     domain: com.apple.finder
     key: ShowPathbar
@@ -7,7 +7,7 @@
     state: present
   notify: Restart Finder
 
-- name: finder | Show status bar
+- name: Finder | Show status bar
   community.general.osx_defaults:
     domain: com.apple.finder
     key: ShowStatusBar
@@ -16,7 +16,7 @@
     state: present
   notify: Restart Finder
 
-- name: finder | Show all filename extensions
+- name: Finder | Show all filename extensions
   community.general.osx_defaults:
     domain: NSGlobalDomain
     key: AppleShowAllExtensions
@@ -32,7 +32,7 @@
 # Documents    : `PfDo`
 # Recents      : `PfAF`
 # Other…       : `PfLo`
-- name: finder | Set path which Finder should open on start
+- name: Finder | Set path which Finder should open on start
   community.general.osx_defaults:
     domain: com.apple.finder
     key: NewWindowTarget
@@ -41,7 +41,7 @@
     state: present
   notify: Restart Finder
 
-- name: finder | Set file path which Finder should open on start
+- name: Finder | Set file path which Finder should open on start
   community.general.osx_defaults:
     domain: com.apple.finder
     key: NewWindowTargetPath
@@ -54,7 +54,7 @@
 # List View   : `Nlsv`
 # Column View : `clmv`
 # Cover Flow  : `Flwv`
-- name: finder | Change finder view in all windows by default
+- name: Finder | Change finder view in all windows by default
   community.general.osx_defaults:
     domain: com.apple.finder
     key: FXPreferredViewStyle

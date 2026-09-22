@@ -1,0 +1,6 @@
+---
+exclude_paths:
+  - roles/elliotweiser.osx-command-line-tools/
+skip_list:
+  # geerlingguy.mac.dock needs these variable names.
+  - var-naming[no-role-prefix]

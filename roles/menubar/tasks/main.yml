@@ -1,7 +1,7 @@
 # https://www.tech-otaku.com/mac/setting-the-date-and-time-format-for-the-macos-menu-bar-clock-using-terminal/
 
 ---
-- name: menubar | Show seconds
+- name: Menubar | Show seconds
   community.general.osx_defaults:
     domain: com.apple.menuextra.clock
     key: ShowSeconds
@@ -10,7 +10,7 @@
   notify: Restart SystemUIServer
   tags: ['menubar']
 
-- name: menubar | Hide Spotlight icon
+- name: Menubar | Hide Spotlight icon
   community.general.osx_defaults:
     host: currentHost
     domain: com.apple.Spotlight
@@ -20,7 +20,7 @@
   notify: Restart SystemUIServer
   tags: ['menubar']
 
-- name: menubar | Show battery percentage
+- name: Menubar | Show battery percentage
   community.general.osx_defaults:
     host: currentHost
     domain: com.apple.controlcenter

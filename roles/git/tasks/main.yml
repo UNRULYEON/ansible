@@ -1,11 +1,11 @@
 ---
-- name: git | Sign commits by default
+- name: Git | Sign commits by default
   community.general.git_config:
     name: commit.gpgsign
     scope: global
     value: 'true'
 
-- name: git | Create remote branch by default when pushing
+- name: Git | Create remote branch by default when pushing
   community.general.git_config:
     name: push.autoSetupRemote
     scope: global
