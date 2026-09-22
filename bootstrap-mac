@@ -10,7 +10,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install ansible
 
 rm -rf ansible
-git clone https://github.com/UNRULYEON/ansible.git
+git clone --branch "${BRANCH:-main}" https://github.com/UNRULYEON/ansible.git
 cd ansible
 
 ansible-galaxy install -r requirements.yml --force
