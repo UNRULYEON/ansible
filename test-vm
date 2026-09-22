@@ -58,11 +58,14 @@ start_vm() {
 [ -x "$TART" ] || fail "Tart is not installed. See https://tart.run/quick-start/."
 [ -n "$(git -C "$ROOT" status --porcelain)" ] &&
   echo "Note: uncommitted changes are not tested. The test uses the last commit on '$BRANCH'."
-if ! "$TART" list --source oci --format json | grep -qF "\"$IMAGE\""; then
-  free_gb=$(( $(df -k "$HOME" | awk 'NR==2 {print $4}') / 1024 / 1024 ))
-  [ "$free_gb" -ge "$FREE_GB_NEEDED" ] ||
-    fail "The first run downloads a ~31 GB image. Free: ${free_gb} GB, needed: ${FREE_GB_NEEDED} GB."
+# The VM needs ~25 GB for the apps, plus ~36 GB if the image is not downloaded yet.
+if "$TART" list --source oci --format json |
+  python3 -c 'import json, sys; sys.exit(sys.argv[1] not in [v["Name"] for v in json.load(sys.stdin)])' "$IMAGE"; then
+  FREE_GB_NEEDED=25
 fi
+free_gb=$(( $(df -k "$HOME" | awk 'NR==2 {print $4}') / 1024 / 1024 ))
+[ "$free_gb" -ge "$FREE_GB_NEEDED" ] ||
+  fail "Not enough free disk space. Free: ${free_gb} GB, needed: ${FREE_GB_NEEDED} GB."
 
 # 2. Clean VM
 log "Cloning $IMAGE to $VM (the first time this downloads the image)"
