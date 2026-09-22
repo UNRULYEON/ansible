@@ -87,7 +87,7 @@ scp "${SSH_OPTS[@]}" -q "$LOGS/repo.bundle" "$LOGS/bootstrap-mac" "admin@$IP:"
 
 # 3. First run: the full bootstrap, which ends with a reboot.
 log "Run 1: bootstrap-mac (this takes a long time; log: $LOGS/run1.log)"
-vm_ssh "NONINTERACTIVE=1 ANSIBLE_NOCOLOR=1 REPO=\$HOME/repo.bundle BRANCH=$BRANCH \
+vm_ssh "NONINTERACTIVE=1 ANSIBLE_NOCOLOR=1 BOOTSTRAP_REPO=\$HOME/repo.bundle BOOTSTRAP_BRANCH=$BRANCH \
   PLAYBOOK_ARGS='$PLAYBOOK_ARGS' bash bootstrap-mac" 2>&1 | tee "$LOGS/run1.log" || true
 grep -q "Rebooting in 60 seconds" "$LOGS/run1.log" || fail "bootstrap-mac stopped before the end. See $LOGS/run1.log."
 

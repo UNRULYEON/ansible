@@ -12,10 +12,10 @@ Sets up a Mac with my apps and settings.
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/UNRULYEON/ansible/main/bootstrap-mac)"
 ```
 
-To use a different branch, set `BRANCH`:
+To use a different branch, set `BOOTSTRAP_BRANCH`:
 
 ```bash
-BRANCH=macos-27 bash -c "$(curl -fsSL https://raw.githubusercontent.com/UNRULYEON/ansible/macos-27/bootstrap-mac)"
+BOOTSTRAP_BRANCH=macos-27 bash -c "$(curl -fsSL https://raw.githubusercontent.com/UNRULYEON/ansible/macos-27/bootstrap-mac)"
 ```
 
 ## Run the playbook again
