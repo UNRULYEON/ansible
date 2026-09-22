@@ -29,3 +29,12 @@
     value: true
   notify: Restart ControlCenter
   tags: ['menubar']
+
+- name: Menubar | Hide input source menu
+  community.general.osx_defaults:
+    domain: com.apple.TextInputMenu
+    key: visible
+    type: bool
+    value: false
+  notify: Restart SystemUIServer
+  tags: ['menubar']

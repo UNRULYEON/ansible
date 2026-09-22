@@ -1,0 +1,39 @@
+---
+- name: System | Configure system settings
+  community.general.osx_defaults:
+    domain: '{{ item.domain }}'
+    key: '{{ item.key }}'
+    type: '{{ item.type }}'
+    value: '{{ item.value }}'
+  loop:
+    # Dark mode. Applies after logout.
+    - { domain: NSGlobalDomain, key: AppleInterfaceStyle, type: string, value: Dark }
+    - { domain: NSGlobalDomain, key: com.apple.sound.beep.sound, type: string, value: /System/Library/Sounds/Funk.aiff }
+    # Do not tile windows when dragging them to a screen edge.
+    - { domain: com.apple.WindowManager, key: EnableTilingByEdgeDrag, type: bool, value: false }
+    - { domain: com.apple.WindowManager, key: EnableTopTilingByEdgeDrag, type: bool, value: false }
+    - { domain: com.apple.assistant.support, key: Assistant Enabled, type: bool, value: false }
+    - { domain: com.apple.Siri, key: StatusMenuVisible, type: bool, value: false }
+    - { domain: com.apple.AdLib, key: allowApplePersonalizedAdvertising, type: bool, value: false }
+  loop_control:
+    label: '{{ item.domain }} {{ item.key }}'
+  tags: ['system']
+
+- name: System | Read power settings
+  ansible.builtin.command: pmset -g custom
+  register: system_pmset
+  changed_when: false
+  check_mode: false
+  tags: ['system']
+
+- name: System | Set display sleep
+  ansible.builtin.command: pmset {{ item.flag }} displaysleep {{ item.minutes }}
+  become: true
+  loop:
+    - { flag: -b, section: Battery Power, minutes: 5 }
+    - { flag: -c, section: AC Power, minutes: 30 }
+  when: >-
+    (system_pmset.stdout | regex_search(item.section ~ ':(?:\\n .*)*?\\n displaysleep\\s+(\\d+)', '\\1') or ['']) | first
+    != item.minutes | string
+  changed_when: true
+  tags: ['system']

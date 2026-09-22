@@ -19,3 +19,4 @@
     - role: finder
     - role: input
     - role: menubar
+    - role: system

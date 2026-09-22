@@ -14,3 +14,27 @@
     type: bool
     value: false
     state: present
+
+- name: Input | Use keyboard navigation to move focus between controls
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: AppleKeyboardUIMode
+    type: int
+    value: 2
+    state: present
+
+- name: Input | Set mouse speed
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: com.apple.mouse.scaling
+    type: float
+    value: 1.5
+    state: present
+
+- name: Input | Disable mouse pointer acceleration
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: com.apple.mouse.linear
+    type: bool
+    value: true
+    state: present
