@@ -5,7 +5,7 @@ homebrew_installed_packages:
   - gh
   - git
   - git-delta
-  - gpg
+  - gnupg
   - mas
   - mole
   - pinentry-mac
@@ -23,7 +23,7 @@ homebrew_cask_apps:
   - claude
   - cleanshot
   - discord
-  - docker
+  - docker-desktop
   - figma
   - font-fira-code-nerd-font
   - font-fira-mono-nerd-font

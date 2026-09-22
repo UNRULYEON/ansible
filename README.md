@@ -22,6 +22,10 @@ sudo xcodebuild -license
 curl https://raw.githubusercontent.com/UNRULYEON/ansible/main/bootstrap-mac | bash
 ```
 
+## Check for drift
+
+Run `./drift` to compare the apps on this Mac with the playbook.
+
 https://blog.vandenbrand.org/2016/01/04/how-to-automate-your-mac-os-x-setup-with-ansible/
 
 https://github.com/wayofdev/ansible-role-mac-cfg
