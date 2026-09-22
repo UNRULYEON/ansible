@@ -4,11 +4,15 @@
     PATH: '/opt/homebrew/bin:/opt/homebrew/sbin:{{ ansible_env.PATH }}'
   community.general.mas:
     id:
+      - 6478456678 # Control Panel for YouTube
       - 1461650987 # Crouton
       - 411643860 # DaisyDisk
       - 441258766 # Magnet
       - 1295203466 # Windows App
       - 1529448980 # Reeder 5
+      - 1519867270 # Refined GitHub
+      - 803453959 # Slack
+      - 1246969117 # Steam Link
       - 747648890 # Telegram
       - 310633997 # WhatsApp Messenger
       - 1662217862 # Wipr 2

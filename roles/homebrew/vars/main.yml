@@ -1,5 +1,8 @@
 ---
 homebrew_installed_packages:
+  - chezmoi
+  - cloudflared
+  - ffmpeg
   - fnm
   - fzf
   - gh
@@ -8,11 +11,13 @@ homebrew_installed_packages:
   - gnupg
   - mas
   - mole
+  - mosh
   - pinentry-mac
   - pnpm
   - pyenv
   - pyenv-virtualenv
   - starship
+  - tailscale
   - zsh
 
 homebrew_taps: []
