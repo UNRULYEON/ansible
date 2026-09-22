@@ -6,7 +6,7 @@ Sets up a Mac with my apps and settings.
 
 1. Sign in to the App Store. The playbook installs App Store apps with `mas`, and `mas` cannot sign in for you.
 
-2. Run the bootstrap script. It installs Homebrew (with the Xcode Command Line Tools) and Ansible, and then runs the playbook.
+2. Run the bootstrap script. It installs Homebrew (with the Xcode Command Line Tools) and Ansible, runs the playbook, and then reboots the Mac.
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/UNRULYEON/ansible/main/bootstrap-mac)"
