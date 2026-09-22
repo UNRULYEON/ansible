@@ -70,6 +70,9 @@ free_gb=$(( $(df -k "$HOME" | awk 'NR==2 {print $4}') / 1024 / 1024 ))
 # 2. Clean VM
 log "Cloning $IMAGE to $VM (the first time this downloads the image)"
 "$TART" clone "$IMAGE" "$VM"
+# The image has a 35 GB disk, which is too small for all the apps. macOS grows
+# its partition by itself at boot, and the disk file only grows when used.
+"$TART" set "$VM" --disk-size "${DISK_GB:-80}"
 log "Starting VM"
 start_vm
 echo "VM IP: $IP"
