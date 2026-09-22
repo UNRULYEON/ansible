@@ -27,6 +27,7 @@ homebrew_cask_accept_external_apps: true
 homebrew_cask_apps:
   - claude
   - cleanshot
+  - cursor
   - discord
   - docker-desktop
   - figma
@@ -37,9 +38,12 @@ homebrew_cask_apps:
   - google-chrome
   - helium-browser
   - iina
+  - linear
   - notion
   - orbstack
   - raycast
+  - steam
+  - tablepro
   - tailscale
   - visual-studio-code
   - yaak
