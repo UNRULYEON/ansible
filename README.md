@@ -31,6 +31,10 @@ Add `--check --diff` for a dry run that shows what changes, without changing any
 
 Run `./drift` to compare the apps on this Mac with the playbook.
 
+## Test on a clean Mac
+
+`./test-vm` runs `bootstrap-mac` in a clean macOS 27 VM with [Tart](https://tart.run), waits for the reboot, and runs the playbook again to check that nothing changes. It tests the last commit on the current branch and skips the App Store apps. The first run downloads a ~31 GB image and needs about 60 GB of free space.
+
 ## Links
 
 - https://blog.vandenbrand.org/2016/01/04/how-to-automate-your-mac-os-x-setup-with-ansible/

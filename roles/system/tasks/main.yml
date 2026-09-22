@@ -32,7 +32,9 @@
   loop:
     - { flag: -b, section: Battery Power, minutes: 5 }
     - { flag: -c, section: AC Power, minutes: 30 }
+  # Macs without a battery have no "Battery Power" section.
   when: >-
+    (item.section ~ ':') in system_pmset.stdout and
     (system_pmset.stdout | regex_search(item.section ~ ':(?:\\n .*)*?\\n displaysleep\\s+(\\d+)', '\\1') or ['']) | first
     != item.minutes | string
   changed_when: true

@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+# Test bootstrap-mac on a clean macOS VM with Tart (https://tart.run).
+#
+#   ./test-vm           test the committed state of the current branch
+#   KEEP=1 ./test-vm    keep the VM after the test; open it with `tart run <name>`
+#
+# The App Store cannot sign in from a script, so the test skips the mas role.
+
+set -euo pipefail
+
+IMAGE="${IMAGE:-ghcr.io/cirruslabs/macos-golden-gate-vanilla:27.0}"
+TART="${TART:-$(command -v tart || echo ~/.local/bin/tart)}"
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+BRANCH="$(git -C "$ROOT" branch --show-current)"
+VM="ansible-test-$(date +%Y%m%d-%H%M%S)"
+LOGS="$ROOT/.test-vm/$VM"
+PLAYBOOK_ARGS="--become-password-file /Users/admin/.become-pass --skip-tags mas"
+# Tasks that report "changed" on every run.
+ALWAYS_CHANGED="Ensure proper ownership on homebrew_install_path subdirs."
+FREE_GB_NEEDED=60
+
+log() { printf '\n\033[1m➜ %s\033[0m\n' "$*"; }
+fail() { printf '\n\033[31m✘ %s\033[0m\n' "$*" >&2; exit 1; }
+
+mkdir -p "$LOGS"
+
+# The vanilla image has user admin with password admin. SSH_ASKPASS gives
+# ssh the password without a prompt.
+printf '#!/bin/sh\necho admin\n' > "$LOGS/askpass"
+chmod +x "$LOGS/askpass"
+export SSH_ASKPASS="$LOGS/askpass" SSH_ASKPASS_REQUIRE=force
+SSH_OPTS=(-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR
+  -o ConnectTimeout=5 -o PreferredAuthentications=password)
+# shellcheck disable=SC2029 # the commands expand on this Mac on purpose
+vm_ssh() { ssh "${SSH_OPTS[@]}" "admin@$IP" "$@" </dev/null; }
+
+RUN_PID=""
+cleanup() {
+  [ -n "$RUN_PID" ] && "$TART" stop "$VM" >/dev/null 2>&1 || true
+  if [ "${KEEP:-0}" = 1 ]; then
+    echo "VM kept: open it with \`$TART run $VM\`, delete it with \`$TART delete $VM\`."
+  else
+    "$TART" delete "$VM" >/dev/null 2>&1 || true
+  fi
+  rm -f "$LOGS/askpass"
+}
+trap cleanup EXIT
+
+start_vm() {
+  "$TART" run --no-graphics "$VM" >>"$LOGS/tart-run.log" 2>&1 &
+  RUN_PID=$!
+  IP="$("$TART" ip --wait 300 "$VM")" || fail "VM did not get an IP address."
+  for _ in $(seq 60); do vm_ssh true 2>/dev/null && return; sleep 5; done
+  fail "SSH to the VM did not work within 5 minutes."
+}
+
+# 1. Checks
+[ -x "$TART" ] || fail "Tart is not installed. See https://tart.run/quick-start/."
+[ -n "$(git -C "$ROOT" status --porcelain)" ] &&
+  echo "Note: uncommitted changes are not tested. The test uses the last commit on '$BRANCH'."
+if ! "$TART" list --source oci --format json | grep -qF "\"$IMAGE\""; then
+  free_gb=$(( $(df -k "$HOME" | awk 'NR==2 {print $4}') / 1024 / 1024 ))
+  [ "$free_gb" -ge "$FREE_GB_NEEDED" ] ||
+    fail "The first run downloads a ~31 GB image. Free: ${free_gb} GB, needed: ${FREE_GB_NEEDED} GB."
+fi
+
+# 2. Clean VM
+log "Cloning $IMAGE to $VM (the first time this downloads the image)"
+"$TART" clone "$IMAGE" "$VM"
+log "Starting VM"
+start_vm
+echo "VM IP: $IP"
+
+vm_ssh 'sudo -n true' 2>/dev/null || vm_ssh "echo admin | sudo -S sh -c \
+  'echo \"admin ALL=(ALL) NOPASSWD: ALL\" > /etc/sudoers.d/admin && chmod 440 /etc/sudoers.d/admin'" 2>/dev/null
+vm_ssh 'echo admin > ~/.become-pass && chmod 600 ~/.become-pass'
+
+git -C "$ROOT" bundle create "$LOGS/repo.bundle" "$BRANCH" 2>/dev/null
+git -C "$ROOT" show "$BRANCH:bootstrap-mac" > "$LOGS/bootstrap-mac"
+scp "${SSH_OPTS[@]}" -q "$LOGS/repo.bundle" "$LOGS/bootstrap-mac" "admin@$IP:"
+
+# 3. First run: the full bootstrap, which ends with a reboot.
+log "Run 1: bootstrap-mac (this takes a long time; log: $LOGS/run1.log)"
+vm_ssh "NONINTERACTIVE=1 ANSIBLE_NOCOLOR=1 REPO=\$HOME/repo.bundle BRANCH=$BRANCH \
+  PLAYBOOK_ARGS='$PLAYBOOK_ARGS' bash bootstrap-mac" 2>&1 | tee "$LOGS/run1.log" || true
+grep -q "Rebooting in 60 seconds" "$LOGS/run1.log" || fail "bootstrap-mac stopped before the end. See $LOGS/run1.log."
+
+# 4. Reboot
+log "Waiting for the reboot"
+for _ in $(seq 24); do vm_ssh true 2>/dev/null || break; sleep 5; done
+for _ in $(seq 120); do
+  if ! kill -0 "$RUN_PID" 2>/dev/null; then start_vm; break; fi
+  vm_ssh true 2>/dev/null && break
+  sleep 5
+done
+vm_ssh true || fail "The VM did not come back after the reboot."
+echo "The VM started again."
+
+# 5. Second run: nothing should change.
+log "Run 2: playbook again (log: $LOGS/run2.log)"
+vm_ssh "eval \"\$(/opt/homebrew/bin/brew shellenv)\" && rm -rf ansible && \
+  git clone -q --branch $BRANCH repo.bundle ansible && cd ansible && \
+  ANSIBLE_NOCOLOR=1 ansible-playbook main.yml $PLAYBOOK_ARGS" 2>&1 | tee "$LOGS/run2.log" || true
+
+# 6. Result
+changed_tasks=$(awk '/^(TASK|RUNNING HANDLER) \[/ {sub(/^[A-Z ]+\[[^]]*: /, ""); sub(/\] \*+$/, ""); task=$0}
+  /^changed:/ {print task}' "$LOGS/run2.log" | sort -u | grep -vxF "$ALWAYS_CHANGED" || true)
+
+log "Result"
+grep -q "failed=0" "$LOGS/run1.log" || fail "Run 1 had failed tasks. See $LOGS/run1.log."
+grep -q "failed=0" "$LOGS/run2.log" || fail "Run 2 had failed tasks. See $LOGS/run2.log."
+[ -z "$changed_tasks" ] || fail "Run 2 changed these tasks again (not idempotent):
+$changed_tasks"
+printf '\033[32m✔ Bootstrap, reboot and second run passed. Logs: %s\033[0m\n' "$LOGS"

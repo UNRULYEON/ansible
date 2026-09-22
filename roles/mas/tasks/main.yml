@@ -18,6 +18,7 @@
       - 1662217862 # Wipr 2
       - 497799835 # Xcode
     state: latest
+  tags: ['mas']
 
 - name: Uninstall Mac App Store apps
   environment:
@@ -28,3 +29,4 @@
       - 408981434 # iMovie
     state: absent
   become: true
+  tags: ['mas']

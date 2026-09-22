@@ -10,11 +10,13 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install ansible
 
 rm -rf ansible
-git clone --branch "${BRANCH:-main}" https://github.com/UNRULYEON/ansible.git
+git clone --branch "${BRANCH:-main}" "${REPO:-https://github.com/UNRULYEON/ansible.git}" ansible
 cd ansible
 
 ansible-galaxy install -r requirements.yml --force
-ansible-playbook main.yml --ask-become-pass
+# PLAYBOOK_ARGS lets ./test-vm run without prompts.
+# shellcheck disable=SC2086 # split PLAYBOOK_ARGS into arguments
+ansible-playbook main.yml ${PLAYBOOK_ARGS:---ask-become-pass}
 
 cd ..
 rm -rf ansible
