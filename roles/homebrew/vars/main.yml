@@ -19,7 +19,8 @@ homebrew_installed_packages:
   - starship
   - zsh
 
-homebrew_taps: []
+homebrew_taps:
+  - abue-ammar/tinycast
 homebrew_cask_appdir: /Applications
 homebrew_cask_accept_external_apps: true
 
@@ -44,6 +45,7 @@ homebrew_cask_apps:
   - steam
   - tablepro
   - tailscale
+  - tinycast
   - visual-studio-code
   - yaak
   - zed
