@@ -1,4 +1,3 @@
 .python-version
 .vscode
-
-elliotweiser.osx-command-line-tools
+.test-vm/

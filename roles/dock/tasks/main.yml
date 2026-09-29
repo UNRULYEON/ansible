@@ -1,5 +1,5 @@
 ---
-- name: dock | Setup Mac Dock
+- name: Dock | Setup Mac Dock
   ansible.builtin.include_role:
     name: geerlingguy.mac.dock
     apply:
@@ -8,22 +8,21 @@
   when: configure_dock
   tags: ['dock']
 
-- name: dock | Move dock position
-  ansible.builtin.shell:
-    defaults write com.apple.dock orientation left
-
-- name: dock | Resize dock to 32
-  ansible.builtin.shell:
-    defaults write com.apple.dock tilesize -int 32
-
-- name: dock | Change minimising effect to Scale
-  ansible.builtin.shell:
-    defaults write com.apple.dock mineffect -string scale
-
-- name: dock | Disable showing recent apps
-  ansible.builtin.shell:
-    defaults write com.apple.dock show-recents -bool FALSE
-
-- name: dock | Restart the dock to apply changes
-  ansible.builtin.shell:
-    killall Dock
+- name: Dock | Configure Dock settings
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: '{{ item.key }}'
+    type: '{{ item.type }}'
+    value: '{{ item.value }}'
+  loop:
+    - { key: orientation, type: string, value: left }
+    - { key: tilesize, type: int, value: 32 }
+    - { key: mineffect, type: string, value: scale }
+    - { key: show-recents, type: bool, value: false }
+    # Hot corners. 1 = off, 2 = Mission Control.
+    - { key: wvous-bl-corner, type: int, value: 2 }
+    - { key: wvous-bl-modifier, type: int, value: 0 }
+    - { key: wvous-br-corner, type: int, value: 1 }
+    - { key: wvous-br-modifier, type: int, value: 0 }
+  notify: Restart Dock
+  tags: ['dock']

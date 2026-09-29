@@ -1,13 +1,17 @@
 ---
 homebrew_installed_packages:
+  - chezmoi
+  - cloudflared
+  - ffmpeg
   - fnm
   - fzf
   - gh
   - git
   - git-delta
-  - gpg
+  - gnupg
   - mas
-  - orbstack
+  - mole
+  - mosh
   - pinentry-mac
   - pnpm
   - pyenv
@@ -15,25 +19,33 @@ homebrew_installed_packages:
   - starship
   - zsh
 
-homebrew_taps: []
+homebrew_taps:
+  - abue-ammar/tinycast
 homebrew_cask_appdir: /Applications
+homebrew_cask_accept_external_apps: true
 
 homebrew_cask_apps:
-  - bitwarden
-  - bruno
+  - claude
   - cleanshot
+  - cursor
   - discord
-  - docker
+  - docker-desktop
   - figma
   - font-fira-code-nerd-font
   - font-fira-mono-nerd-font
   - font-geist-mono-nerd-font
-  - fork
   - ghostty
   - google-chrome
+  - helium-browser
   - iina
-  - iterm2
+  - linear
   - notion
+  - orbstack
   - raycast
+  - steam
+  - tablepro
   - tailscale
+  - tinycast
   - visual-studio-code
+  - yaak
+  - zed

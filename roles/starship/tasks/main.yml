@@ -3,14 +3,11 @@
   ansible.builtin.file:
     path: ~/.config
     state: directory
-    owner: amarkisoensingh
-    group: staff
+    mode: '0755'
 
 - name: Copy starship.toml
-  template:
+  ansible.builtin.template:
     src: starship.toml.j2
     dest: ~/.config/starship.toml
-    owner: amarkisoensingh
-    group: staff
+    mode: '0644'
     backup: true
-    force: true

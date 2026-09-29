@@ -1,27 +1,45 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+set -euo pipefail
 
 cd ~
 
+# Install the Xcode Command Line Tools first. Right after the first boot,
+# Software Update can find nothing, so try again a few times.
+if ! xcode-select -p >/dev/null 2>&1; then
+  echo "➜ Installing the Xcode Command Line Tools"
+  touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+  for _ in 1 2 3 4 5 6; do
+    clt=$(softwareupdate -l 2>/dev/null | sed -n 's/^\* Label: \(Command Line Tools.*\)$/\1/p' | sort -V | tail -n1)
+    [ -n "$clt" ] && break
+    sleep 30
+  done
+  if [ -n "$clt" ]; then
+    sudo softwareupdate -i "$clt"
+  else
+    xcode-select --install
+    echo "➜ Finish the install in the window that opened."
+    until xcode-select -p >/dev/null 2>&1; do sleep 10; done
+  fi
+  rm -f /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+fi
+
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python3 get-pip.py
-sudo pip3 install --ignore-installed ansible
-rm get-pip.py
-
-# rm -rf dotfiles
-# git clone https://github.com/UNRULYEON/dotfiles.git
+brew install ansible
 
 rm -rf ansible
-git clone https://github.com/UNRULYEON/ansible.git
+git clone --branch "${BOOTSTRAP_BRANCH:-main}" "${BOOTSTRAP_REPO:-https://github.com/UNRULYEON/ansible.git}" ansible
 cd ansible
 
 ansible-galaxy install -r requirements.yml --force
-ansible-playbook main.yml --ask-become-pass
+# PLAYBOOK_ARGS lets ./test-vm run without prompts.
+# shellcheck disable=SC2086 # split PLAYBOOK_ARGS into arguments
+ansible-playbook main.yml ${PLAYBOOK_ARGS:---ask-become-pass}
 
 cd ..
 rm -rf ansible
 
-echo "➜ Generate SSH keys: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
-echo "➜ Generate or import GPG keys: https://amar-kisoensingh.notion.site/GPG-Keys-ac46dff6e5b34733b9cf31e64f2f2274"
-echo "➜ Configure passwordless SSH login: https://amar-kisoensingh.notion.site/SSH-keys-27b45ac9ec6a442d9bf905062b1fbce2?pvs=4"
+echo "➜ Rebooting in 60 seconds so all settings apply. Press Enter to reboot now, or Ctrl+C to cancel."
+read -r -t 60 </dev/tty || true
+sudo shutdown -r now
